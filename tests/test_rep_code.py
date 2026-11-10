@@ -1,14 +1,14 @@
 import unittest
 import numpy as np
 
-from rep_code import build_distance_3_memory_circuit
+from rep_code import build_memory_circuit
 
 
 class TestRepetitionCode(unittest.TestCase):
 
     def test_noiseless_memory(self):
         # build a noiseless circuit
-        circuit = build_distance_3_memory_circuit(
+        circuit = build_memory_circuit(d=5,
             rounds=3,
             p_data=0.0,
             p_measurement=0.0
@@ -25,7 +25,7 @@ class TestRepetitionCode(unittest.TestCase):
 
     def test_measurement_errors(self):
         # Build a circuit with p_measurement = 1.0
-        circuit = build_distance_3_memory_circuit(
+        circuit = build_memory_circuit(d=5,
             rounds=3,
             p_data=0.0,
             p_measurement=1.0
@@ -38,7 +38,12 @@ class TestRepetitionCode(unittest.TestCase):
         )
 
         # Expected detector pattern for each shot:
-        expected = np.array([1, 1, 0, 0, 0, 0, 1, 1])
+        expected = np.array([
+            1, 1, 1, 1,  # First round
+            0, 0, 0, 0,  # Second round
+            0, 0, 0, 0,  # Third round
+            1, 1, 1, 1  # Final detectors
+        ])
 
         # Assert that every shot has this detector pattern
         self.assertTrue(np.all(detectors == expected))
@@ -47,7 +52,7 @@ class TestRepetitionCode(unittest.TestCase):
 
     def test_undetectable_logical_error(self):
         # Build a circuit with p_data = 1.0
-        circuit = build_distance_3_memory_circuit(
+        circuit = build_memory_circuit(d=5,
             rounds=3,
             p_data=1.0,
             p_measurement=0.0
@@ -63,6 +68,17 @@ class TestRepetitionCode(unittest.TestCase):
         self.assertTrue(np.all(detectors == 0))
         # Assert that all observables are one
         self.assertTrue(np.all(observables == 1))
+
+    def test_distance_5_detector_count(self):
+        circuit = build_memory_circuit(
+            d=5,
+            rounds=3,
+            p_data=0.0,
+            p_measurement=0.0
+        )
+
+        self.assertEqual(circuit.num_detectors, 16)
+        self.assertEqual(circuit.num_qubits, 9)
 
 
 if __name__ == "__main__":
