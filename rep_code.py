@@ -46,6 +46,7 @@ def build_memory_circuit(
     circuit.append("R", range(2 * d - 1))
 
     for round_index in range(rounds):
+        circuit.append("X_ERROR", data_qubits, p_data)
         add_parity_round_general(
             circuit,
             data_qubits,
@@ -59,7 +60,6 @@ def build_memory_circuit(
             round_index == 0
         )
 
-        circuit.append("X_ERROR", data_qubits, p_data)
 
     circuit.append("M", data_qubits, p_measurement)
 

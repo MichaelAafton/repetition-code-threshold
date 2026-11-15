@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .idea/
+scratch.py
+detection_events.py
+stim_detection_rounds.py
