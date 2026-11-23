@@ -21,7 +21,4 @@ def logical_error_rate(logical_errors, shots):
 
 circuit = build_memory_circuit(d=3, rounds=9, p_data=0.01, p_measurement=0.01)
 matching = build_decoder(circuit)
-detectors, observables, predictions = decode_circuit(circuit, matching, 1000)
-
-print(detectors.shape)
-print(observables.shape)
+detectors, observables, predictions = decode_circuit(circuit, matching, 10)

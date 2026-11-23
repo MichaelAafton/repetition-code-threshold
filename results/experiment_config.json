@@ -1,0 +1,13 @@
+{
+    "distances": [
+        3,
+        5
+    ],
+    "physical_error_rates": [
+        0.005,
+        0.01
+    ],
+    "pilot_shots": 1000,
+    "target_relative_error": 0.2,
+    "confidence": 0.95
+}
